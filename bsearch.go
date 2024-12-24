@@ -22,9 +22,9 @@ func bsearch(array []int, i int) {
 
 		if array[mid] < i {
 			fmt.Println(left)
-			left = mid + 1
+			left = mid + 1 // постепенное убавление числа для предотвращения б.цикла
 		} else if array[mid] > i {
-			right = mid - 1
+			right = mid - 1 // постепенное убавление числа для предотвращения б.цикла
 		}
 	}
 }
