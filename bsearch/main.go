@@ -1,8 +1,8 @@
-package main
+package bsearch
 
 import "fmt"
 
-func main() {
+func bsearch() {
 	array := []int{1, 1, 4, 4, 8, 120}
 	array2 := []int{1, 2, 4, 5, 6, 7, 8, 63, 64, 65}
 
