@@ -3,18 +3,19 @@ package bsearch
 import "fmt"
 
 func main() {
-	array := []int{-1, -1, -2, -3, -4, -5, -7, -9}
+	array := []int{1, 1, 1, -2}
 
 	res := 0
 	if array[0] >= 0 {
-		res = len(array) - checkArr(array)
+		res = len(array) - bs(array)
+
 	} else {
 		res += len(array)
 	}
 	fmt.Println(res)
 }
 
-func checkArr(arr []int) int {
+func bs(arr []int) int {
 	//arr := []int{} //int
 	left := 0             //0
 	right := len(arr) - 1 //7/2=3
