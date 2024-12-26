@@ -13,9 +13,11 @@ func findnegative() {
 
 	array := make([]int, b)
 	for i := 0; i < a; i++ {
+
 		for j := 0; j < b; j++ {
 			fmt.Scan(&array[j])
 		}
+
 		if array[len(array)-1] >= 0 {
 			res += 0
 		} else {
