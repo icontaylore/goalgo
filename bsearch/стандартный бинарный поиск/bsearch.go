@@ -1,4 +1,4 @@
-package bsearch
+package стандартный_бинарный_поиск
 
 import "fmt"
 

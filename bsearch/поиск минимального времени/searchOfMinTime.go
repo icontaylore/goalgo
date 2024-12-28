@@ -1,4 +1,4 @@
-package bsearch
+package поиск_минимального_времени
 
 import (
 	"fmt"

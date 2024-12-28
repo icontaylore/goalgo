@@ -1,4 +1,4 @@
-package bsearch
+package поиск_отрицательного_числа
 
 import "fmt"
 

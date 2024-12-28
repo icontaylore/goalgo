@@ -1,4 +1,4 @@
-package bsearch
+package дипломы_задача_про_квадрат_равный
 
 import (
 	"fmt"
