@@ -1,4 +1,4 @@
-package main
+package sortString
 
 func main() {
 	mergeAlternately("ab", "pqrs")
