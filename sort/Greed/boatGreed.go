@@ -40,13 +40,15 @@ func main() {
 		}
 	}
 
-	count := 0
+	count, j := 0, 0
 	// cylces for sum
-	for i := 0; i < len(arr)-1; i += 2 {
-		if arr[i]+arr[i+1] > maxPeop {
-			count += 2
-		} else {
+	for i := len(arr) - 1; i >= j; i-- { // i >= j обозначает, что при пересечении j, работа остановится все проверены
+		fmt.Println(arr[i], arr[j])
+		if arr[i]+arr[j] <= maxPeop {
 			count += 1
+			j++
+		} else {
+			count += 1 // 2//j1; 2+2
 		}
 	}
 	fmt.Println(arr, count)
