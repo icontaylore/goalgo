@@ -1,4 +1,4 @@
-package sortString
+package SortString
 
 func main() {
 	// Вызов функции для слияния строк
