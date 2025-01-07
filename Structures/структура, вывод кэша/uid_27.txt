@@ -1,0 +1,6 @@
+User: email27@mail.com - id: 27
+  Action: stor back at 2025-01-07T22:04:31+04:00
+  Action: delete at 2025-01-07T22:04:31+04:00
+  Action: start at 2025-01-07T22:04:31+04:00
+  Action: start rec at 2025-01-07T22:04:31+04:00
+  Action: stop rec at 2025-01-07T22:04:31+04:00

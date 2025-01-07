@@ -1,0 +1,6 @@
+User: email98@mail.com - id: 98
+  Action: delete at 2025-01-07T22:04:31+04:00
+  Action: back rec at 2025-01-07T22:04:31+04:00
+  Action: start rec at 2025-01-07T22:04:31+04:00
+  Action: replay at 2025-01-07T22:04:31+04:00
+  Action: exit at 2025-01-07T22:04:31+04:00

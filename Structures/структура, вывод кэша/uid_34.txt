@@ -1,0 +1,6 @@
+User: email34@mail.com - id: 34
+  Action: start at 2025-01-07T22:04:31+04:00
+  Action: start rec at 2025-01-07T22:04:31+04:00
+  Action: start rec at 2025-01-07T22:04:31+04:00
+  Action: exit at 2025-01-07T22:04:31+04:00
+  Action: back rec at 2025-01-07T22:04:31+04:00
