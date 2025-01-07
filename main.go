@@ -2,31 +2,34 @@ package main
 
 import (
 	"fmt"
+	"time"
 )
 
-func main() {
-	res := 1 //1+1*2+1
-	count := 1
+type Apocalypse struct {
+	Name      string
+	TypeChaos string
+	LogChaos  []ActionApocalypse
+}
 
-	dp := []int{res}
+type ActionApocalypse struct {
+	Action string
+	t      time.Time
+}
 
-	if res == 0 { //
-		fmt.Println(0)
-	} else if res == 2 {
-		fmt.Println(1)
-	} else {
-		for dp[0] > 2 {
-			fmt.Println(dp[0])
-			if dp[0]%3 == 0 {
-				dp[0] /= 3
-			} else if dp[0]%2 == 0 {
-				dp[0] /= 2
-			} else {
-				dp[0] -= 1
-			}
-
-			count++
-		}
-		fmt.Println(dp[0], count)
+func (a Apocalypse) createTableCahce() {
+	for _, v := range a.LogChaos {
+		fmt.Println(v.Action, time.Now())
 	}
+}
+
+func main() {
+	Tsunami := Apocalypse{Name: "Tsunami", TypeChaos: "Mega Wave", LogChaos: []ActionApocalypse{
+		{Action: "MegaSuname", t: time.Now()},
+		{Action: "MegaSuname2", t: time.Now()},
+		{Action: "MegaSuname3", t: time.Now()},
+		{Action: "MegaSuname4", t: time.Now()},
+		{Action: "MegaSuname5", t: time.Now()},
+	},
+	}
+	Tsunami.createTableCahce()
 }
