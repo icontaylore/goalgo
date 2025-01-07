@@ -36,7 +36,7 @@ func main() {
 
 	// Печать информации о каждом пользователе
 	for _, v := range u {
-		writeFile(v)
+		go writeFile(v)
 	}
 
 }
