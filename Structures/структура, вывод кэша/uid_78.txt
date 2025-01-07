@@ -1,6 +1,6 @@
 User: email78@mail.com - id: 78
-  Action: stop rec at 2025-01-07T22:04:31+04:00
-  Action: start rec at 2025-01-07T22:04:31+04:00
-  Action: start rec at 2025-01-07T22:04:31+04:00
-  Action: exit at 2025-01-07T22:04:31+04:00
-  Action: back rec at 2025-01-07T22:04:31+04:00
+  Action:  at 0001-01-01T00:00:00Z
+  Action: stor back at 2025-01-07T22:26:21+04:00
+  Action: stor back at 2025-01-07T22:26:21+04:00
+  Action: delete at 2025-01-07T22:26:21+04:00
+  Action: delete at 2025-01-07T22:26:21+04:00

@@ -5,6 +5,7 @@ import (
 	"log"
 	"math/rand"
 	"os"
+	"sync"
 	"time"
 )
 
@@ -28,6 +29,10 @@ type Cache struct {
 }
 
 func main() {
+	// Группа ожидания wg
+	wg := &sync.WaitGroup{}
+	// Время ожидания
+	t := time.Now()
 	// Инициализация генератора случайных чисел
 	rand.NewSource(time.Now().Unix())
 
@@ -36,12 +41,16 @@ func main() {
 
 	// Печать информации о каждом пользователе
 	for _, v := range u {
-		go writeFile(v)
+		wg.Add(1)
+		go writeFile(v, wg)
 	}
 
+	wg.Wait()
+
+	fmt.Println(time.Since(t).String())
 }
 
-func writeFile(usr User) error {
+func writeFile(usr User, wg *sync.WaitGroup) error {
 	filename := fmt.Sprintf("Structures/структура, вывод кэша/uid_%d.txt", usr.id)
 	file, err := os.OpenFile(filename, os.O_RDWR|os.O_CREATE, 0644)
 	if err != nil {
@@ -49,6 +58,8 @@ func writeFile(usr User) error {
 	}
 
 	file.WriteString(usr.getInfo())
+	// Подтверждение, что горутина завершила работу
+	wg.Done()
 	defer file.Close()
 	return nil
 }
@@ -67,7 +78,7 @@ func generateUser(n int) []User {
 // Функция для генерации случайных действий
 func generateRandomAction(n int) []Cache {
 	log := make([]Cache, n)
-	for i := 0; i < n; i++ {
+	for i := 1; i < n; i++ {
 		// Генерация случайного действия из LoggyAction
 		log[i] = Cache{A: LoggyAction[rand.Intn(len(LoggyAction))], t: time.Now()}
 	}
