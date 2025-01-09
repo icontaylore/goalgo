@@ -2,18 +2,20 @@ package main
 
 import "fmt"
 
+// LinkedList
 type LinkedList struct {
-	Head *Node
-	Tail *Node
+	Head *Node // first
+	Tail *Node // last
 }
 
+// Node struct
 type Node struct {
-	Data int   // значение
-	Next *Node // ссылка на след эл.
+	Data int   // data
+	Next *Node //
 }
 
-func (l *LinkedList) PushBack(i int) {
-	n := &Node{Data: i, Next: nil}
+func (l *LinkedList) PushBack(num int) {
+	n := &Node{Data: num, Next: nil}
 
 	if l.Head == nil {
 		l.Head = n
@@ -24,61 +26,69 @@ func (l *LinkedList) PushBack(i int) {
 	l.Tail = n
 }
 
-func (l *LinkedList) PushFront(i int) {
-	n := &Node{Data: i, Next: l.Head}
+func (l *LinkedList) PushFront(num int) {
+	n := &Node{Data: num, Next: l.Head}
 
 	if l.Head == nil {
-		l.Head = n
 		l.Tail = n
 	}
 
 	l.Head = n
 }
 
-func (l *LinkedList) SearchEl(i int) int {
-	current, count := l.Head, 1
+func (l *LinkedList) Search(num int) {
+	current, count := l.Head, 1 // текущий эл списка. счётчик
 
-	for current.Next != nil {
-		if current.Data == i {
-			fmt.Println("yes", current)
-			break
+	for current != nil {
+		if current.Data == num {
+			fmt.Println("yes this num")
+			return
 		}
 		count++
 		current = current.Next
 	}
 
-	return current.Data
+	fmt.Println(current.Data, count)
 }
 
-func (l *LinkedList) Insert(i int, j int) {
+func (l *LinkedList) Insert(num int, j int) {
 	current := l.Head
-	n := &Node{Data: i}
+	n := &Node{Data: num}
 
-	for current != nil {
+	for current != nil { // 6 9 ; 10 11 ; 6>9
 		if current.Data == j {
+			fmt.Println("зацепились")
 			n.Next = current.Next
 			current.Next = n
 
-			if current == l.Tail {
-				l.Tail = n
-			}
 			return
 		}
 		current = current.Next
 	}
 
-	fmt.Println(n.Next.Data)
+}
+
+func (l *LinkedList) Erase(num int) {
+	current := l.Head // начальное состояние
+	prev := &Node{}
+
+	if num == current.Data {
+		current = current.Next
+	}
+
+	for current != nil && current.Data != num { // 6 9 10
+		prev = current
+		current = current.Next
+	}
+
+	if current.Next == nil {
+		l.Tail = prev
+	}
+	prev.Next = current.Next
+
 }
 
 func main() {
 	l1 := &LinkedList{}
-	l1.PushBack(2)  // 1
-	l1.PushBack(3)  // 2
-	l1.PushBack(6)  // 3
-	l1.PushBack(9)  // 4
-	l1.PushBack(10) // 5
-	l1.PushBack(11) // 6
-	l1.PushBack(12) // 7
-	l1.PushBack(16) // 8
-	l1.Insert(20, 9)
+	l1.PushBack(1)
 }
