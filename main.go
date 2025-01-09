@@ -8,24 +8,24 @@ type LinkedList struct {
 }
 
 type Node struct {
-	data int   // значение
-	next *Node // ссылка на след эл.
+	Data int   // значение
+	Next *Node // ссылка на след эл.
 }
 
 func (l *LinkedList) PushBack(i int) {
-	n := &Node{data: i, next: nil}
+	n := &Node{Data: i, Next: nil}
 
 	if l.Head == nil {
 		l.Head = n
 		l.Tail = n
 	}
 
-	l.Tail.next = n
+	l.Tail.Next = n
 	l.Tail = n
 }
 
 func (l *LinkedList) PushFront(i int) {
-	n := &Node{data: i, next: l.Head}
+	n := &Node{Data: i, Next: l.Head}
 
 	if l.Head == nil {
 		l.Head = n
@@ -35,19 +35,39 @@ func (l *LinkedList) PushFront(i int) {
 	l.Head = n
 }
 
-func (l *LinkedList) searchEl(i int) {
+func (l *LinkedList) SearchEl(i int) int {
 	current, count := l.Head, 1
 
-	for current.next != nil {
-		if current.data == i {
+	for current.Next != nil {
+		if current.Data == i {
 			fmt.Println("yes", current)
 			break
 		}
 		count++
-		current = current.next
+		current = current.Next
 	}
 
-	fmt.Println(count)
+	return current.Data
+}
+
+func (l *LinkedList) Insert(i int, j int) {
+	current := l.Head
+	n := &Node{Data: i}
+
+	for current != nil {
+		if current.Data == j {
+			n.Next = current.Next
+			current.Next = n
+
+			if current == l.Tail {
+				l.Tail = n
+			}
+			return
+		}
+		current = current.Next
+	}
+
+	fmt.Println(n.Next.Data)
 }
 
 func main() {
@@ -60,5 +80,5 @@ func main() {
 	l1.PushBack(11) // 6
 	l1.PushBack(12) // 7
 	l1.PushBack(16) // 8
-	l1.searchEl(9)
+	l1.Insert(20, 9)
 }
