@@ -2,64 +2,63 @@ package main
 
 import "fmt"
 
-// Односвязанный список
 type LinkedList struct {
 	Head *Node
 	Tail *Node
 }
 
-// Структура узла
 type Node struct {
-	Data int
-	Next *Node
+	data int   // значение
+	next *Node // ссылка на след эл.
 }
 
-// Добавление элемента в начало списка
-func (l *LinkedList) PushFront(i int) {
-	n := &Node{Data: i, Next: l.Head}
+func (l *LinkedList) PushBack(i int) {
+	n := &Node{data: i, next: nil}
 
-	// Если список пуст, новый элемент будет и Head, и Tail
 	if l.Head == nil {
+		l.Head = n
 		l.Tail = n
 	}
+
+	l.Tail.next = n
+	l.Tail = n
+}
+
+func (l *LinkedList) PushFront(i int) {
+	n := &Node{data: i, next: l.Head}
+
+	if l.Head == nil {
+		l.Head = n
+		l.Tail = n
+	}
+
 	l.Head = n
 }
 
-// Добавление элемента в конец списка
-func (l *LinkedList) PushBack(i int) {
-	n := &Node{Data: i, Next: nil}
-
-	// Если список пуст, новый элемент будет и Head, и Tail
-	if l.Head == nil {
-		l.Head, l.Tail = n, n
-	} else {
-		// Если список не пуст, добавляем элемент в конец
-		l.Tail.Next = n
-		l.Tail = n
-	}
-}
-
 func (l *LinkedList) searchEl(i int) {
-	current, count := l.Head, 0
+	current, count := l.Head, 1
 
-	for current != nil {
-		if current.Data == i {
-			fmt.Println(current.Data, current.Next, count)
+	for current.next != nil {
+		if current.data == i {
+			fmt.Println("yes", current)
+			break
 		}
 		count++
-		current = current.Next
+		current = current.next
 	}
+
+	fmt.Println(count)
 }
 
 func main() {
 	l1 := &LinkedList{}
-	l1.PushBack(1)   // Добавляем 1 в конец
-	l1.PushFront(2)  // Добавляем 2 в начало
-	l1.PushFront(3)  // Добавляем 3 в начало
-	l1.PushFront(11) // Добавляем 3 в начало
-	l1.PushFront(10) // Добавляем 3 в начало
-	l1.PushBack(9)   // Добавляем 3 в начало
-	l1.PushFront(6)  // Добавляем 3 в начало
-	l1.PushFront(4)  // Добавляем 3 в начало
+	l1.PushBack(2)  // 1
+	l1.PushBack(3)  // 2
+	l1.PushBack(6)  // 3
+	l1.PushBack(9)  // 4
+	l1.PushBack(10) // 5
+	l1.PushBack(11) // 6
+	l1.PushBack(12) // 7
+	l1.PushBack(16) // 8
 	l1.searchEl(9)
 }
