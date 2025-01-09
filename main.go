@@ -1,5 +1,7 @@
 package main
 
+import "fmt"
+
 // Односвязанный список
 type LinkedList struct {
 	Head *Node
@@ -37,8 +39,27 @@ func (l *LinkedList) PushBack(i int) {
 	}
 }
 
+func (l *LinkedList) searchEl(i int) {
+	current, count := l.Head, 0
+
+	for current != nil {
+		if current.Data == i {
+			fmt.Println(current.Data, current.Next, count)
+		}
+		count++
+		current = current.Next
+	}
+}
+
 func main() {
 	l1 := &LinkedList{}
-	l1.PushBack(1)  // Добавляем 1 в конец
-	l1.PushFront(2) // Добавляем 2 в начало
+	l1.PushBack(1)   // Добавляем 1 в конец
+	l1.PushFront(2)  // Добавляем 2 в начало
+	l1.PushFront(3)  // Добавляем 3 в начало
+	l1.PushFront(11) // Добавляем 3 в начало
+	l1.PushFront(10) // Добавляем 3 в начало
+	l1.PushBack(9)   // Добавляем 3 в начало
+	l1.PushFront(6)  // Добавляем 3 в начало
+	l1.PushFront(4)  // Добавляем 3 в начало
+	l1.searchEl(9)
 }
