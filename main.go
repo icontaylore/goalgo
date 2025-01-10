@@ -25,13 +25,20 @@ func (l *LinkedList) PushBack(i int) {
 }
 
 func (l *LinkedList) EraseLast() {
+	if l.Head == nil {
+		fmt.Println("нету элементов")
+		return
+	}
+
 	if l.Head.Next == nil {
 		l.Head = nil
-		return
+		l.Tail = nil
 	}
 
 	current := l.Head
 	var prev *Node
+
+	prev = current
 
 	for current.Next != nil {
 		prev = current
