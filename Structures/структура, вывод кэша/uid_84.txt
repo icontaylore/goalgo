@@ -1,6 +1,0 @@
-User: email84@mail.com - id: 84
-  Action:  at 0001-01-01T00:00:00Z
-  Action: exit at 2025-01-07T22:26:21+04:00
-  Action: stor back at 2025-01-07T22:26:21+04:00
-  Action: stor back at 2025-01-07T22:26:21+04:00
-  Action: stor back at 2025-01-07T22:26:21+04:00
