@@ -2,20 +2,18 @@ package main
 
 import "fmt"
 
-// LinkedList
 type LinkedList struct {
-	Head *Node // first
-	Tail *Node // last
+	Head *Node
+	Tail *Node
 }
 
-// Node struct
 type Node struct {
-	Data int   // data
-	Next *Node //
+	Data int
+	Next *Node
 }
 
-func (l *LinkedList) PushBack(num int) {
-	n := &Node{Data: num, Next: nil}
+func (l *LinkedList) PushBack(i int) {
+	n := &Node{Data: i, Next: nil}
 
 	if l.Head == nil {
 		l.Head = n
@@ -26,69 +24,83 @@ func (l *LinkedList) PushBack(num int) {
 	l.Tail = n
 }
 
-func (l *LinkedList) PushFront(num int) {
-	n := &Node{Data: num, Next: l.Head}
-
-	if l.Head == nil {
-		l.Tail = n
+func (l *LinkedList) EraseLast() {
+	if l.Head.Next == nil {
+		l.Head = nil
+		return
 	}
 
-	l.Head = n
-}
-
-func (l *LinkedList) Search(num int) {
-	current, count := l.Head, 1 // текущий эл списка. счётчик
-
-	for current != nil {
-		if current.Data == num {
-			fmt.Println("yes this num")
-			return
-		}
-		count++
-		current = current.Next
-	}
-
-	fmt.Println(current.Data, count)
-}
-
-func (l *LinkedList) Insert(num int, j int) {
 	current := l.Head
-	n := &Node{Data: num}
+	var prev *Node
 
-	for current != nil { // 6 9 ; 10 11 ; 6>9
-		if current.Data == j {
-			fmt.Println("зацепились")
-			n.Next = current.Next
-			current.Next = n
-
-			return
-		}
-		current = current.Next
-	}
-
-}
-
-func (l *LinkedList) Erase(num int) {
-	current := l.Head // начальное состояние
-	prev := &Node{}
-
-	if num == current.Data {
-		current = current.Next
-	}
-
-	for current != nil && current.Data != num { // 6 9 10
+	for current.Next != nil {
 		prev = current
 		current = current.Next
 	}
 
-	if current.Next == nil {
-		l.Tail = prev
+	prev.Next = nil
+}
+
+func (l *LinkedList) EraseFirst() {
+	if l.Head == nil {
+		fmt.Println("пусто")
+		return
 	}
-	prev.Next = current.Next
+
+	l.Head = l.Head.Next
+}
+
+func (l *LinkedList) Erase(i int) {
+	current := l.Head
+
+	if l.Head.Data == i {
+		l.Head = current.Next
+		fmt.Println("эл. был первым")
+
+		return
+	}
+
+	var left *Node
+
+	for current != nil {
+		if current.Data == i && current.Next != nil {
+			left.Next = current.Next
+			break
+
+		} else if current.Next == nil {
+			l.Tail = left
+		}
+
+		left = current
+		current = current.Next
+	}
 
 }
 
+func (l *LinkedList) Range() {
+	current := l.Head
+
+	for current != nil {
+		fmt.Println(current.Data)
+		current = current.Next
+	}
+}
+
 func main() {
+	n, i := 0, 0
+	fmt.Scan(&n)
+
 	l1 := &LinkedList{}
-	l1.PushBack(1)
+	for i < n {
+		a := 0
+		fmt.Scan(&a)
+		l1.PushBack(a)
+		i++
+	}
+	l1.EraseLast()
+	l1.Erase(6)
+	fmt.Println(l1.Tail)
+
+	l1.Range()
+
 }
