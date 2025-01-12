@@ -4,6 +4,7 @@ import "fmt"
 
 type Node struct {
 	Data int
+	Prev *Node
 	Next *Node
 }
 
@@ -21,36 +22,68 @@ func (l *LinkedList) PushBack(i int) {
 		return
 	}
 
+	prev := l.Tail
+
+	n = &Node{Data: i, Next: nil, Prev: prev}
 	l.Tail.Next = n
 	l.Tail = n
 }
 
-func (l *LinkedList) Check() bool {
+func (l *LinkedList) PushFront(i int) {
+	n := &Node{Data: i, Next: nil, Prev: nil}
+
+	if l.Head == nil {
+		l.Head = n
+		l.Tail = n
+		return
+	}
+
+	prev := l.Head
+	n = &Node{Data: i, Next: prev, Prev: nil}
+
+	l.Head.Prev = n
+	l.Head = n
+}
+
+func (l *LinkedList) Insert(i int, j int) {
 	cur := l.Head
-	count := 0
+
+	if l.Head == nil {
+		l.PushFront(i)
+	}
 
 	for cur != nil {
-		if count == 3 {
-			break
+		if cur.Data == j {
+			left := cur
+			right := cur.Next
+
+			n := &Node{Data: i, Next: right, Prev: left}
+			cur.Next = n
+			cur = n
+			return
 		}
 
-		count++
 		cur = cur.Next
 	}
+}
 
-	if count == 3 {
-		return false
+func (l *LinkedList) Range() {
+	cur := l.Head
+
+	for cur != nil {
+
+		fmt.Println(cur.Data, "-data;", cur.Prev, "-prev;", cur.Next, "-next")
+		cur = cur.Next
 	}
-
-	return true
 }
 
 func main() {
 	l1 := &LinkedList{}
-	l1.PushBack(1)
-	l1.PushBack(2)
-	l1.PushBack(3)
 
-	r := l1.Check()
-	fmt.Println(r)
+	l1.PushFront(1)
+	l1.Insert(2, 1)
+	l1.Insert(3, 2)
+
+	l1.Range()
+
 }
