@@ -79,6 +79,21 @@ func (l *LinkedList) Erase(i int) error {
 		errors.New("список пуст")
 	}
 
+	if l.Head.Data == i {
+		fmt.Println("yes")
+		l.Head = l.Head.Next
+		l.Head.Prev = nil
+
+		return nil
+
+	} else if l.Tail.Data == i {
+		fmt.Println("yes2")
+		left := l.Tail.Prev
+		left.Next = nil
+
+		return nil
+	}
+
 	for current != nil {
 		if current.Next.Data == i {
 			left := current
@@ -114,7 +129,7 @@ func main() {
 	l1.PushBack(4)
 	l1.PushBack(5)
 
-	l1.Erase(3)
+	l1.Erase(5)
 
 	l1.Range()
 
