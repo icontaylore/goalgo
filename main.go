@@ -72,6 +72,29 @@ func (l *LinkedList) Insert(i int, j int) error {
 	return nil
 }
 
+func (l *LinkedList) Erase(i int) error {
+	current := l.Head
+
+	if l.Head == nil {
+		errors.New("список пуст")
+	}
+
+	for current != nil {
+		if current.Next.Data == i {
+			left := current
+			right := current.Next.Next
+
+			left.Next = right
+			right.Prev = left
+
+			return nil
+		}
+
+		current = current.Next
+	}
+	return nil
+}
+
 func (l *LinkedList) Range() {
 	cur := l.Head
 
@@ -85,9 +108,13 @@ func (l *LinkedList) Range() {
 func main() {
 	l1 := &LinkedList{}
 
-	l1.PushFront(1)
-	l1.Insert(2, 1)
-	l1.Insert(3, 2)
+	l1.PushBack(1)
+	l1.PushBack(2)
+	l1.PushBack(3)
+	l1.PushBack(4)
+	l1.PushBack(5)
+
+	l1.Erase(3)
 
 	l1.Range()
 
