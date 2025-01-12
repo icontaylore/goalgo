@@ -1,6 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"errors"
+	"fmt"
+)
 
 type Node struct {
 	Data int
@@ -45,11 +48,11 @@ func (l *LinkedList) PushFront(i int) {
 	l.Head = n
 }
 
-func (l *LinkedList) Insert(i int, j int) {
+func (l *LinkedList) Insert(i int, j int) error {
 	cur := l.Head
 
 	if l.Head == nil {
-		l.PushFront(i)
+		return errors.New("пустой список")
 	}
 
 	for cur != nil {
@@ -60,11 +63,13 @@ func (l *LinkedList) Insert(i int, j int) {
 			n := &Node{Data: i, Next: right, Prev: left}
 			cur.Next = n
 			cur = n
-			return
+			return nil
 		}
 
 		cur = cur.Next
 	}
+
+	return nil
 }
 
 func (l *LinkedList) Range() {
