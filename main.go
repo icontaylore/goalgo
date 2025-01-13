@@ -30,6 +30,14 @@ func (l *MaxLenList) PushBack(i int) {
 	l.List.PushBack(i)
 }
 
+func (l *MaxLenList) PushFront(i int) {
+	if l.List.Len() >= l.MaxLen {
+		l.List.Remove(l.List.Back())
+	}
+
+	l.List.PushFront(i)
+}
+
 // Items - метод для получения всех элементов списка в виде среза
 func (m *MaxLenList) Items() []interface{} {
 	var items []interface{} // Срез для хранения элементов
@@ -54,7 +62,7 @@ func main() {
 	}
 
 	// Добавляем ещё один элемент, что вызывает удаление самого старого элемента
-	dq.PushBack(4)
+	dq.PushFront(99)
 
 	// Выводим элементы списка
 	fmt.Print(dq.Items()) // Результат: [2 3 4 5 4]
