@@ -1,4 +1,4 @@
-package main
+package deque__double_ended_queue_
 
 import (
 	"container/list"
