@@ -83,6 +83,19 @@ func (l *MaxLenList) Pop(i int) interface{} {
 	return nil
 }
 
+func (l *MaxLenList) Extend(i []int) interface{} {
+	if l.List == nil {
+		return nil
+	}
+
+	for e := 0; e < len(i); e++ {
+		fmt.Println(e)
+		l.PushBack(i[e])
+	}
+
+	return l.Items()
+}
+
 func main() {
 	// Исходный массив данных
 	arr := []int{1, 2, 3, 4, 5}
@@ -96,7 +109,7 @@ func main() {
 	}
 
 	// Добавляем ещё один элемент, что вызывает удаление самого старого элемента
-	fmt.Println(dq.Pop(3))
+	fmt.Println(dq.Extend([]int{6, 6, 6}))
 
 	//Выводим элементы списка
 	fmt.Println(dq.Items())
