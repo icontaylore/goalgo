@@ -1,136 +1,61 @@
 package main
 
 import (
-	"errors"
+	"container/list"
 	"fmt"
 )
 
-type Node struct {
-	Data int
-	Prev *Node
-	Next *Node
+// MaxLenList - структура, оборачивающая двусвязный список с ограничением на максимальную длину
+type MaxLenList struct {
+	List   *list.List // Основной список
+	MaxLen int        // Максимальная длина списка
 }
 
-type LinkedList struct {
-	Head *Node
-	Tail *Node
+// MaxLenCreate - функция-конструктор для создания списка с ограничением длины
+func MaxLenCreate(max int) *MaxLenList {
+	return &MaxLenList{
+		List:   list.New(), // Создаём новый двусвязный список
+		MaxLen: max,        // Задаём максимальную длину
+	}
 }
 
-func (l *LinkedList) PushBack(i int) {
-	n := &Node{Data: i, Next: nil}
-
-	if l.Head == nil {
-		l.Head = n
-		l.Tail = n
-		return
+// PushBack - метод для добавления элемента в конец списка
+func (l *MaxLenList) PushBack(i int) {
+	// Если текущая длина списка больше или равна максимальной, удаляем первый элемент
+	if l.List.Len() >= l.MaxLen {
+		l.List.Remove(l.List.Front()) // Удаляем самый старый элемент (FIFO)
 	}
 
-	prev := l.Tail
-
-	n = &Node{Data: i, Next: nil, Prev: prev}
-	l.Tail.Next = n
-	l.Tail = n
+	// Добавляем новый элемент в конец списка
+	l.List.PushBack(i)
 }
 
-func (l *LinkedList) PushFront(i int) {
-	n := &Node{Data: i, Next: nil, Prev: nil}
+// Items - метод для получения всех элементов списка в виде среза
+func (m *MaxLenList) Items() []interface{} {
+	var items []interface{} // Срез для хранения элементов
 
-	if l.Head == nil {
-		l.Head = n
-		l.Tail = n
-		return
+	// Проходим по списку, начиная с первого элемента, и добавляем значения в срез
+	for e := m.List.Front(); e != nil; e = e.Next() {
+		items = append(items, e.Value) // Добавляем значение текущего элемента
 	}
-
-	prev := l.Head
-	n = &Node{Data: i, Next: prev, Prev: nil}
-
-	l.Head.Prev = n
-	l.Head = n
-}
-
-func (l *LinkedList) Insert(i int, j int) error {
-	cur := l.Head
-
-	if l.Head == nil {
-		return errors.New("пустой список")
-	}
-
-	for cur != nil {
-		if cur.Data == j {
-			left := cur
-			right := cur.Next
-
-			n := &Node{Data: i, Next: right, Prev: left}
-			cur.Next = n
-			cur = n
-			return nil
-		}
-
-		cur = cur.Next
-	}
-
-	return nil
-}
-
-func (l *LinkedList) Erase(i int) error {
-	current := l.Head
-
-	if l.Head == nil {
-		errors.New("список пуст")
-	}
-
-	if l.Head.Data == i {
-		fmt.Println("yes")
-		l.Head = l.Head.Next
-		l.Head.Prev = nil
-
-		return nil
-
-	} else if l.Tail.Data == i {
-		fmt.Println("yes2")
-		left := l.Tail.Prev
-		left.Next = nil
-
-		return nil
-	}
-
-	for current != nil {
-		if current.Next.Data == i {
-			left := current
-			right := current.Next.Next
-
-			left.Next = right
-			right.Prev = left
-
-			return nil
-		}
-
-		current = current.Next
-	}
-	return nil
-}
-
-func (l *LinkedList) Range() {
-	cur := l.Head
-
-	for cur != nil {
-
-		fmt.Println(cur.Data, "-data;", cur.Prev, "-prev;", cur.Next, "-next")
-		cur = cur.Next
-	}
+	return items
 }
 
 func main() {
-	l1 := &LinkedList{}
+	// Исходный массив данных
+	arr := []int{1, 2, 3, 4, 5}
 
-	l1.PushBack(1)
-	l1.PushBack(2)
-	l1.PushBack(3)
-	l1.PushBack(4)
-	l1.PushBack(5)
+	// Создаём список с максимальной длиной 5
+	dq := MaxLenCreate(5)
 
-	l1.Erase(5)
+	// Заполняем список элементами массива
+	for _, v := range arr {
+		dq.PushBack(v)
+	}
 
-	l1.Range()
+	// Добавляем ещё один элемент, что вызывает удаление самого старого элемента
+	dq.PushBack(4)
 
+	// Выводим элементы списка
+	fmt.Print(dq.Items()) // Результат: [2 3 4 5 4]
 }
