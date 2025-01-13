@@ -49,6 +49,40 @@ func (m *MaxLenList) Items() []interface{} {
 	return items
 }
 
+func (l *MaxLenList) PopLeft(i int) interface{} {
+	if l.List == nil {
+		return nil
+	}
+
+	right := l.List.Front()
+	l.List.Remove(right)
+	return right.Value
+}
+
+func (l *MaxLenList) PopRight(i int) interface{} {
+	if l.List == nil {
+		return nil
+	}
+
+	left := l.List.Back()
+	l.List.Remove(left)
+	return left.Value
+}
+
+func (l *MaxLenList) Pop(i int) interface{} {
+	if l.List == nil {
+		return nil
+	}
+
+	for e := l.List.Front(); e != nil; e = e.Next() {
+		if e.Value == i {
+			return l.List.Remove(e)
+		}
+	}
+
+	return nil
+}
+
 func main() {
 	// Исходный массив данных
 	arr := []int{1, 2, 3, 4, 5}
@@ -62,8 +96,9 @@ func main() {
 	}
 
 	// Добавляем ещё один элемент, что вызывает удаление самого старого элемента
-	dq.PushFront(99)
+	fmt.Println(dq.Pop(3))
 
-	// Выводим элементы списка
-	fmt.Print(dq.Items()) // Результат: [2 3 4 5 4]
+	//Выводим элементы списка
+	fmt.Println(dq.Items())
+
 }
