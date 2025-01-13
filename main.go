@@ -88,9 +88,20 @@ func (l *MaxLenList) Extend(i []int) interface{} {
 		return nil
 	}
 
-	for e := 0; e < len(i); e++ {
-		fmt.Println(e)
-		l.PushBack(i[e])
+	for _, v := range i {
+		l.PushBack(v)
+	}
+
+	return l.Items()
+}
+
+func (l *MaxLenList) ExtendLeft(i []int) interface{} {
+	if l.List == nil {
+		return nil
+	}
+
+	for _, v := range i {
+		l.PushFront(v)
 	}
 
 	return l.Items()
@@ -109,7 +120,7 @@ func main() {
 	}
 
 	// Добавляем ещё один элемент, что вызывает удаление самого старого элемента
-	fmt.Println(dq.Extend([]int{6, 6, 6}))
+	fmt.Println(dq.ExtendLeft([]int{6, 6, 6}))
 
 	//Выводим элементы списка
 	fmt.Println(dq.Items())
