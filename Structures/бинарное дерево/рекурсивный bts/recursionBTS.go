@@ -1,4 +1,4 @@
-package бинарное_дерево
+package рекурсивный_bts
 
 import "fmt"
 
