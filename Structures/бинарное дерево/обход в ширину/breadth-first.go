@@ -37,19 +37,19 @@ func (t *Tree) ShowWide() *Node {
 		fmt.Println()
 	}
 
-	return nil
+	return t.Root
 }
 
 func main() {
 	t1 := &Tree{}
 
-	t1.Push(8)
-	t1.Push(5)
-	t1.Push(6)
-	t1.Push(4)
-	t1.Push(10)
-	t1.Push(9)
-	t1.Push(11)
+	//t1.Push(8)
+	//t1.Push(5)
+	//t1.Push(6)
+	//t1.Push(4)
+	//t1.Push(10)
+	//t1.Push(9)
+	//t1.Push(11)
 
 	t1.ShowWide()
 
