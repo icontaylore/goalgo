@@ -1,6 +1,8 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+)
 
 type Node struct {
 	Data  int
@@ -32,9 +34,10 @@ func PushItem(node *Node, i int) *Node {
 	return node
 }
 
-func (t *Tree) Item() {
+func (t *Tree) Item() []int {
 	stack := []*Node{}
 	cur := t.Root
+	arr := []int{}
 
 	for cur != nil || len(stack) > 0 {
 		for cur != nil {
@@ -43,11 +46,13 @@ func (t *Tree) Item() {
 		}
 
 		cur = stack[len(stack)-1]
-		fmt.Println(cur.Data)
+		arr = append(arr, cur.Data)
 		stack = stack[:len(stack)-1]
 
 		cur = cur.Right
 	}
+
+	return arr
 }
 
 // PUSH AND ITEM
@@ -133,6 +138,24 @@ func (t *Tree) ShowWide() *Node {
 	return nil
 }
 
+func CheckPlenty(arr1 []int, arr2 []int) []int {
+	arr := []int{}
+	i, j := 0, 0
+
+	for i < len(arr1) && j < len(arr2) {
+		if arr2[j] < arr1[i] {
+			j++
+		} else if arr2[j] > arr1[i] {
+			i++
+		} else {
+			arr = append(arr, arr2[j])
+			j++
+			i++
+		}
+	}
+	return arr
+}
+
 func main() {
 	t1 := &Tree{}
 
@@ -144,6 +167,20 @@ func main() {
 	t1.Push(9)
 	t1.Push(11)
 
-	t1.ShowWide()
+	arr1 := t1.Item()
+	fmt.Println(arr1)
+
+	t2 := &Tree{}
+
+	t2.Push(7)
+	t2.Push(4)
+	t2.Push(9)
+	t2.Push(10)
+
+	arr2 := t2.Item()
+	fmt.Println(arr2)
+
+	t := CheckPlenty(arr1, arr2)
+	fmt.Println(t)
 
 }
