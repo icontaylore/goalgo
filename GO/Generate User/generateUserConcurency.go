@@ -1,4 +1,4 @@
-package main
+package Generate_User
 
 import (
 	"fmt"
