@@ -2,185 +2,81 @@ package main
 
 import (
 	"fmt"
+	"log"
+	"math/rand"
+	"os"
+	"time"
 )
 
-type Node struct {
-	Data  int
-	Left  *Node
-	Right *Node
+type LogItem struct {
+	act string
+	t   time.Time
 }
 
-type Tree struct {
-	Root *Node
+var action = []string{
+	"loged",
+	"outlog",
+	"cleaning history",
+	"exit",
 }
 
-func (t *Tree) Push(i int) {
-	t.Root = PushItem(t.Root, i)
-}
-
-// PUSH AND ITEM
-func PushItem(node *Node, i int) *Node {
-	n := &Node{Data: i}
-
-	if node == nil {
-		return n
-	}
-
-	if i < node.Data {
-		node.Left = PushItem(node.Left, i)
-	} else if i > node.Data {
-		node.Right = PushItem(node.Right, i)
-	}
-	return node
-}
-
-func (t *Tree) Item() []int {
-	stack := []*Node{}
-	cur := t.Root
-	arr := []int{}
-
-	for cur != nil || len(stack) > 0 {
-		for cur != nil {
-			stack = append(stack, cur)
-			cur = cur.Left
-		}
-
-		cur = stack[len(stack)-1]
-		arr = append(arr, cur.Data)
-		stack = stack[:len(stack)-1]
-
-		cur = cur.Right
-	}
-
-	return arr
-}
-
-// PUSH AND ITEM
-
-// POP AND ELEM
-func (t *Tree) Pop(i int) {
-	t.Root = PopOut(t.Root, i)
-}
-
-func PopOut(node *Node, i int) *Node {
-	if node.Data == i {
-		small := FindSmall(node.Right)
-		node.Data = small.Data
-		node.Right = DeleteElem(node.Right, small.Data)
-	}
-
-	if i < node.Data {
-		node.Left = DeleteElem(node.Left, i)
-	} else if i > node.Data {
-		node.Right = DeleteElem(node.Right, i)
-	}
-
-	return node
-}
-
-func FindSmall(node *Node) *Node {
-	for node.Left == nil {
-		return node
-	}
-
-	return FindSmall(node.Left)
-}
-
-func DeleteElem(node *Node, i int) *Node {
-	if node == nil {
-		return nil
-	}
-
-	if i > node.Data {
-		DeleteElem(node.Right, i)
-	} else if i < node.Data {
-		DeleteElem(node.Left, i)
-	} else {
-		if node.Left == nil {
-			return node.Right
-		} else if node.Right == nil {
-			return node.Left
-		}
-
-		smal := FindSmall(node.Right)
-		node.Data = smal.Data
-		node.Right = DeleteElem(node.Right, smal.Data)
-	}
-
-	return node
-}
-
-func (t *Tree) ShowWide() *Node {
-	if t.Root == nil {
-		return nil
-	}
-
-	queue := []*Node{t.Root}
-
-	for len(queue) > 0 {
-		lvl := len(queue)
-
-		for i := 0; i < lvl; i++ {
-			node := queue[0]
-			queue = queue[1:]
-			fmt.Print(node.Data, " ")
-
-			if node.Left != nil {
-				queue = append(queue, node.Left)
-			}
-			if node.Right != nil {
-				queue = append(queue, node.Right)
-			}
-		}
-		fmt.Println()
-	}
-
-	return nil
-}
-
-func CheckPlenty(arr1 []int, arr2 []int) []int {
-	arr := []int{}
-	i, j := 0, 0
-
-	for i < len(arr1) && j < len(arr2) {
-		if arr2[j] < arr1[i] {
-			j++
-		} else if arr2[j] > arr1[i] {
-			i++
-		} else {
-			arr = append(arr, arr2[j])
-			j++
-			i++
-		}
-	}
-	return arr
+type User struct {
+	id    int
+	email string
+	log   []LogItem
 }
 
 func main() {
-	t1 := &Tree{}
+	rand.NewSource(time.Now().UnixNano())
 
-	t1.Push(8)
-	t1.Push(5)
-	t1.Push(6)
-	t1.Push(4)
-	t1.Push(10)
-	t1.Push(9)
-	t1.Push(11)
+	createNewUser := GenerateUsers(rand.Intn(100))
+	for _, user := range createNewUser {
+		CreateWrite(user)
+	}
+}
 
-	arr1 := t1.Item()
-	fmt.Println(arr1)
+func (u User) GetInfo() string {
+	out := fmt.Sprintf("id:%d | email:%s\n", u.id, u.email)
+	for _, v := range u.log {
+		out += fmt.Sprintf("action:%s | time:%s\n", v.act, v.t)
+	}
 
-	t2 := &Tree{}
+	return out
+}
 
-	t2.Push(7)
-	t2.Push(4)
-	t2.Push(9)
-	t2.Push(10)
+func GenerateUsers(n int) []User {
+	u := make([]User, n)
 
-	arr2 := t2.Item()
-	fmt.Println(arr2)
+	for i := 1; i < n; i++ {
+		u[i] = User{
+			id:    i,
+			email: fmt.Sprintf("emailUser%d@mail.ru", i),
+			log:   RandomLog(rand.Intn(10)),
+		}
+	}
+	return u
+}
 
-	t := CheckPlenty(arr1, arr2)
-	fmt.Println(t)
+func RandomLog(count int) []LogItem {
+	logy := make([]LogItem, count)
 
+	for i := 1; i < count; i++ {
+		logy[i] = LogItem{
+			t:   time.Now(),
+			act: action[rand.Intn(len(action)-1)],
+		}
+	}
+
+	return logy
+}
+
+func CreateWrite(user User) error {
+	filename := fmt.Sprintf("GO sause/Generate User/uid_%d", user.id)
+	file, err := os.OpenFile(filename, os.O_RDWR|os.O_CREATE, 0644)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	file.WriteString(user.GetInfo())
+	return nil
 }
