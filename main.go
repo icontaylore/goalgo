@@ -77,7 +77,7 @@ func RandomLog(count int) []LogItem {
 }
 
 func CreateWrite(user User, group *sync.WaitGroup) error {
-	filename := fmt.Sprintf("GO sause/Generate User/uid_%d", user.id)
+	filename := fmt.Sprintf("GO/Generate User/uid_%d", user.id)
 	file, err := os.OpenFile(filename, os.O_RDWR|os.O_CREATE, 0644)
 	if err != nil {
 		log.Fatal(err)
