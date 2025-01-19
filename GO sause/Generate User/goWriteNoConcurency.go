@@ -5,6 +5,7 @@ import (
 	"log"
 	"math/rand"
 	"os"
+	"sync"
 	"time"
 )
 
@@ -27,12 +28,17 @@ type User struct {
 }
 
 func main() {
+	wg := sync.WaitGroup{}
 	rand.NewSource(time.Now().UnixNano())
 
 	createNewUser := GenerateUsers(rand.Intn(100))
+
 	for _, user := range createNewUser {
-		CreateWrite(user)
+		wg.Add(1)
+		CreateWrite(user, &wg)
 	}
+
+	wg.Wait()
 }
 
 func (u User) GetInfo() string {
@@ -70,7 +76,7 @@ func RandomLog(count int) []LogItem {
 	return logy
 }
 
-func CreateWrite(user User) error {
+func CreateWrite(user User, group *sync.WaitGroup) error {
 	filename := fmt.Sprintf("GO sause/Generate User/uid_%d", user.id)
 	file, err := os.OpenFile(filename, os.O_RDWR|os.O_CREATE, 0644)
 	if err != nil {
@@ -78,5 +84,7 @@ func CreateWrite(user User) error {
 	}
 
 	file.WriteString(user.GetInfo())
+
+	group.Done()
 	return nil
 }
