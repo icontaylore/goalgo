@@ -5,8 +5,8 @@ import (
 	"sync"
 )
 
-func fillchan(n int) <-chan int {
-	chanel := make(chan int)
+func fillChan(n int) <-chan int {
+	chanel := make(chan int) // 1 ; 1
 
 	go func() {
 		defer close(chanel)
@@ -14,39 +14,43 @@ func fillchan(n int) <-chan int {
 			chanel <- i
 		}
 	}()
+
 	return chanel
 }
 
 func merge(cs ...<-chan int) <-chan int {
-	ch := make(chan int)
+	chanel := make(chan int)
 	wg := sync.WaitGroup{}
 
-	for _, v := range cs {
-		wg.Add(1)
-		go func(chanel <-chan int) {
-			defer wg.Done()
-			for val := range chanel {
-				ch <- val
-			}
-		}(v)
-	}
+	wg.Add(len(cs) + 1)
+	go func() {
+		defer wg.Done()
+		for _, arr := range cs { // 1,2,3
+			go func(ch <-chan int) {
+				defer wg.Done()
+				for v := range ch {
+					chanel <- v
+				}
+			}(arr)
+		}
+	}()
 
 	go func() {
 		wg.Wait()
-		defer close(ch)
+		defer close(chanel)
 	}()
-
-	return ch
+	return chanel
 }
 
 func main() {
-	a := fillchan(2)
-	b := fillchan(3)
-	c := fillchan(4)
-
+	a := fillChan(2)
+	b := fillChan(3)
+	c := fillChan(4)
+	//
 	d := merge(a, b, c)
 
 	for v := range d {
 		fmt.Println(v)
 	}
+
 }
