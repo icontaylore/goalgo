@@ -31,7 +31,8 @@ func main() {
 }
 
 func tee(ctx context.Context, in <-chan interface{}) (_, _ <-chan interface{}) {
-	one, two := make(chan interface{}), make(chan interface{})
+	one := make(chan interface{})
+	two := make(chan interface{})
 
 	go func() {
 		defer close(one)
